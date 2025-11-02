@@ -6,6 +6,11 @@ const app = express();
 const connectToDB = require('./Database/database');
 connectToDB();
 
+const authRoutes = require('./Routes/auth-routes');
+
+// Use auth routes
+app.use('/api/auth', authRoutes);
+
 
   // Middleware to parse JSON
 app.use(express.json());
