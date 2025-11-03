@@ -6,6 +6,11 @@ const app = express();
 const connectToDB = require('./Database/database');
 connectToDB();
 
+const bookRoutes = require('./Routes/book-routes');
+
+// Use book routes
+app.use('/api/books', bookRoutes);
+
 const authRoutes = require('./Routes/auth-routes');
 
 // Use auth routes
