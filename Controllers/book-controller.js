@@ -3,10 +3,11 @@ const Book = require('../Models/book');
 const getAllBooks = async (req, res) => {
     try{
         const allBooks = await Book.find()
+
         if(allBooks.length > 0) {
             res.status(200).json({
                 success: true,
-                message: 'List of books fetched sucessfully',
+                message: 'List of books fetched successfully',
                 data: allBooks
             })
         } else {
@@ -15,6 +16,7 @@ const getAllBooks = async (req, res) => {
                 message: 'No book found in the database'
             })
         }
+        
     } catch(e) {
         console.log(e)
         res.status(500).json({
@@ -25,13 +27,36 @@ const getAllBooks = async (req, res) => {
 }
 
 const getSingleBookById = async (req, res) => {
-    
+    try {
+        const getCurrentBookId = req.params.id;
+        const bookDetailsById = await Book.findById(getCurrentBookId)
+
+        if(!bookDetailsById){
+            res.status(404).json({
+                success: false,
+                message: 'Book with the current id is not found, please try with a different id'
+            })
+        } else {
+            res.status(200).json({
+                success: true,
+                data: bookDetailsById
+            })
+        }
+
+    } catch(e) {
+        console.log(e)
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong! Please try again'
+        })
+    }
 }
 
 const addNewBook = async (req, res) => {
     try{
         const newBookFormData = req.body;
         const newlyCreatedBook = await Book.create(newBookFormData);
+
         if(newlyCreatedBook) {
             res.status(201).json({
                 success: true,
@@ -39,6 +64,7 @@ const addNewBook = async (req, res) => {
                 data: newlyCreatedBook,
             });
         }
+
     } catch(e) {
         console.log(e);
         res.status(500).json({
