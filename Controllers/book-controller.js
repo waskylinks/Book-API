@@ -76,6 +76,19 @@ const addNewBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
     try{
+        
+
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong! Please try again'
+        })
+    }
+}
+
+const deleteBook = async (req, res) => {
+    try{
         const getCurrentBookId = req.params.id;
         const deletedBook = await Book.findByIdAndDelete(getCurrentBookId);
 
@@ -91,18 +104,6 @@ const updateBook = async (req, res) => {
                 message: `Book with id ${getCurrentBookId} was deleted successfully`
             });
         }
-
-    } catch(e) {
-        console.log(e);
-        res.status(500).json({
-            success: false,
-            message: 'Something went wrong! Please try again'
-        })
-    }
-}
-
-const deleteBook = async (req, res) => {
-    try{
 
     } catch(e) {
         console.log(e);
