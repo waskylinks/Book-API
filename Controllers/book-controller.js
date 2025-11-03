@@ -1,7 +1,27 @@
 const Book = require('../Models/book');
 
 const getAllBooks = async (req, res) => {
-
+    try{
+        const allBooks = await Book.find()
+        if(allBooks.length > 0) {
+            res.status(200).json({
+                success: true,
+                message: 'List of books fetched sucessfully',
+                data: allBooks
+            })
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'No book found in the database'
+            })
+        }
+    } catch(e) {
+        console.log(e)
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong! Please try again'
+        })
+    }
 }
 
 const getSingleBookById = async (req, res) => {
@@ -21,6 +41,10 @@ const addNewBook = async (req, res) => {
         }
     } catch(e) {
         console.log(e);
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong! Please try again'
+        })
     }
 };
 
