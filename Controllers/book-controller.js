@@ -16,7 +16,7 @@ const getAllBooks = async (req, res) => {
                 message: 'No book found in the database'
             })
         }
-        
+
     } catch(e) {
         console.log(e)
         res.status(500).json({
@@ -75,11 +75,42 @@ const addNewBook = async (req, res) => {
 };
 
 const updateBook = async (req, res) => {
-    
+    try{
+        const getCurrentBookId = req.params.id;
+        const deletedBook = await Book.findByIdAndDelete(getCurrentBookId);
+
+        if(!deleteBook) {
+            res.status(404).json({
+                success: false,
+                message: `Book is not found with this ${getCurrentBookId} id`
+            });
+        } else {
+            res.status(200).json({
+                success: true,
+                data: deleteBook,
+                message: `Book with id ${getCurrentBookId} was deleted successfully`
+            });
+        }
+
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong! Please try again'
+        })
+    }
 }
 
 const deleteBook = async (req, res) => {
-    
+    try{
+
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong! Please try again'
+        })
+    }
 }
 
 module.exports = {
