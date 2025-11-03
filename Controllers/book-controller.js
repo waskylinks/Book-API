@@ -76,7 +76,24 @@ const addNewBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
     try{
-        
+        const updatedDataFormData = req.body;
+        const getCurrentBookId = req.params.id;
+        const updatedBook = await Book.findByIdAndUpdate(getCurrentBookId, updatedDataFormData, {
+            new : true
+        });
+
+        if(!updatedBook) {
+            res.status(404).json({
+                success: false,
+                message: `Book with ${getCurrentBookId} id was not found`
+            });
+        } else {
+            res.status(200).json({
+                success: true,
+                data: updatedBook,
+                message: `Book with id ${getCurrentBookId} was updated successfully`
+            });
+        }
 
     } catch(e) {
         console.log(e);
@@ -95,7 +112,7 @@ const deleteBook = async (req, res) => {
         if(!deleteBook) {
             res.status(404).json({
                 success: false,
-                message: `Book is not found with this ${getCurrentBookId} id`
+                message: `Book with ${getCurrentBookId} id was not found`
             });
         } else {
             res.status(200).json({
